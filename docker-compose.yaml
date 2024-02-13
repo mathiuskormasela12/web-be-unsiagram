@@ -1,0 +1,22 @@
+version: "3.8"
+
+networks:
+  unsiagram-network:
+    name: unsiagram-network
+    driver: bridge
+
+services:
+  unsiagram-db:
+    container_name: unsiagram-db
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: unsiagram
+    restart: always
+    ports:
+      - protocol: tcp
+        target: 5432
+        published: 9091
+    networks:
+      - unsiagram-network

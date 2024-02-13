@@ -1,0 +1,22 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("SERVICE_DATABASE_URL")
+}
+
+model User {
+  id String @db.Uuid  @id @default(uuid())
+  firstName String @db.VarChar(255)
+  lastName String? @db.VarChar(255)
+  email String @db.VarChar(255) @unique
+  password String @db.VarChar(255)
+  photo String? @db.VarChar(255) @default("no-photo.png")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

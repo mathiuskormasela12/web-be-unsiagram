@@ -4,6 +4,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { AuthModule } from './auth/auth.module';
 import { ResponseModule } from './response/response.module';
+import { PrismaModule } from './prisma/prisma.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { ResponseModule } from './response/response.module';
     }),
 
     // Define all modules here
+    PrismaModule,
     ResponseModule,
     AuthModule,
   ],
