@@ -1,10 +1,13 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { AuthModule } from './auth/auth.module';
 import { ResponseModule } from './response/response.module';
 import { PrismaModule } from './prisma/prisma.module';
+import { ThrottlerModule } from '@nestjs/throttler';
+import { AccessTokenModule } from './access-token/access.token.module';
+import { RefreshTokenModule } from './refresh-token/refresh.token.module';
 
 @Module({
   imports: [
@@ -20,9 +23,23 @@ import { PrismaModule } from './prisma/prisma.module';
       serveRoot: '/static',
     }),
 
+    // Setup Rate Limiter
+    ThrottlerModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => [
+        {
+          ttl: Number(config.get<number>('SERVICE_RATE_LIMITER_TTL')),
+          limit: Number(config.get<number>('SERVICE_RATE_LIMITER_LIMIT')),
+        },
+      ],
+    }),
+
     // Define all modules here
     PrismaModule,
     ResponseModule,
+    AccessTokenModule,
+    RefreshTokenModule,
     AuthModule,
   ],
 })
