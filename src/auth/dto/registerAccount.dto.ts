@@ -1,8 +1,8 @@
-import { Optional } from '@nestjs/common';
 import { ApiProperty } from '@nestjs/swagger';
 import {
   IsEmail,
   IsNotEmpty,
+  IsOptional,
   IsString,
   IsStrongPassword,
 } from 'class-validator';
@@ -22,7 +22,7 @@ export class RegisterAccountDto {
     default: 'Doe',
     required: false,
   })
-  @Optional()
+  @IsOptional()
   @IsString({ message: 'Last name should be a string' })
   lastName: string;
 
