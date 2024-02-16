@@ -36,6 +36,10 @@ export class RegisterAccountDto {
   @IsString({ message: 'Email should be a string' })
   email: string;
 
+  @IsNotEmpty({ message: 'Username is required' })
+  @IsString({ message: 'Username should be a string' })
+  username: string;
+
   @ApiProperty({
     title: 'Password',
     description:

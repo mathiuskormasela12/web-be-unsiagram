@@ -47,7 +47,9 @@ export class AuthService {
       } else {
         return {
           statusCode: HttpStatus.BAD_REQUEST,
-          message: 'Email or password is wrong',
+          errors: {
+            account: ['Email or password is wrong'],
+          },
         };
       }
     } catch (err) {
@@ -75,7 +77,7 @@ export class AuthService {
     try {
       const user = await this.prismaService.user.findMany({
         where: {
-          email: data.email,
+          OR: [{ email: data.email }, { username: data.username }],
         },
       });
 
